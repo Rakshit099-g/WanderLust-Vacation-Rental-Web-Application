@@ -1,0 +1,41 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height: 80vh;">
+
+    <div class="card shadow-lg border-0 text-center p-4" style="max-width: 650px; width:100%;">
+
+        <div class="mb-3">
+            <i class="fa-solid fa-triangle-exclamation text-danger"
+               style="font-size: 4rem;"></i>
+        </div>
+
+        <h1 class="display-4 text-danger">
+            <%= err.status || 500 %>
+        </h1>
+
+        <h3 class="mb-3">
+            Oops! Something Went Wrong
+        </h3>
+
+        <p class="lead text-muted">
+            <%= err.message %>
+        </p>
+
+        <hr>
+
+        <div class="mt-3">
+            <a href="/listings" class="btn btn-danger me-2">
+                <i class="fa-solid fa-house"></i>
+                Back to Listings
+            </a>
+
+            <button onclick="history.back()" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left"></i>
+                Go Back
+            </button>
+        </div>
+
+    </div>
+
+</div>

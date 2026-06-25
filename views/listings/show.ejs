@@ -1,0 +1,188 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container show-container">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <h1 class="show-title"><%= listing.title %></h1>
+
+            <div class="card show-card">
+
+                <img
+                    src="<%= listing.image.url %>"
+                    class="show-img"
+                    alt="listing image"
+                >
+
+                <div class="card-body show-body">
+
+                    <p class="show-description">
+                        <%= listing.description %>
+                    </p>
+
+                    <hr>
+
+                    <div class="show-info">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <%= listing.location %>,
+                        <%= listing.country %>
+                    </div>
+
+                    <div class="show-info">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        <%= listing.price.toLocaleString("en-IN") %> / night
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="show-buttons mt-3">
+
+                <a
+                    href="/listings/<%= listing._id %>/edit"
+                    class="btn btn-dark edit-btn"
+                >
+                    <i class="fa-solid fa-pen"></i> Edit
+                </a>
+
+                <form
+                    action="/listings/<%= listing._id %>?_method=DELETE"
+                    method="POST"
+                    class="d-inline"
+                >
+                    <button class="btn btn-danger delete-btn">
+                        <i class="fa-solid fa-trash"></i>
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+
+            <!-- Review Form -->
+
+            <hr class="mt-5">
+
+            <div class="review-section">
+
+                <h3 class="mb-4">Leave a Review</h3>
+
+                <form
+                    action="/listings/<%=listing._id%>/reviews"
+                    method="post"
+                    class="needs-validation"
+                    novalidate
+                >
+
+                    <!-- Rating -->
+
+                    <div class="mb-4">
+                        <label for="rating" class="form-label fw-bold">
+                            Rating:
+                            <span id="ratingValue">3</span>/5
+                        </label>
+
+                        <input
+                            type="range"
+                            class="form-range"
+                            min="1"
+                            max="5"
+                            step="1"
+                            value="3"
+                            id="rating"
+                            name="review[rating]"
+                            oninput="ratingValue.innerText=this.value"
+                        >
+                    </div>
+
+                    <!-- Comment -->
+
+                    <div class="mb-4">
+                        <label
+                            for="comment"
+                            class="form-label fw-bold"
+                        >
+                            Comment
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="comment"
+                            name="review[comment]"
+                            rows="5"
+                            placeholder="Share your experience..."
+                            required
+                        ></textarea>
+
+                        <div class="invalid-feedback">
+                            Please enter a review comment.
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark"
+                    >
+                        Submit Review
+                    </button>
+
+                </form>
+
+            </div>
+
+            <hr class="mt-5">
+            
+
+            <h3 class="mb-4">All Reviews</h3>
+            <%if(listing.reviews.length>0){%>
+            <div class="row">
+                <% for(let review of listing.reviews){ %>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card review-card shadow-sm">
+
+                            <div class="card-body">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center mb-2"
+                                >
+                                    <h5 class="card-title mb-0">
+                                        <i class="fa-solid fa-user-circle"></i>
+                                        Guest
+                                    </h5>
+
+                                    <span class="badge bg-dark">
+                                        ⭐ <%= review.rating %>/5
+                                    </span>
+                                </div>
+
+                                <p class="card-text">
+                                    <%= review.comment %>
+                                </p>
+
+                                <small class="text-muted">
+                                    Posted on
+                                    <%= review.createdAt.toLocaleDateString("en-IN") %>
+                                </small>
+                                <form
+                                action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=Delete"
+                                method="post"
+                                >
+                                <button class="btn btn-sm btn-danger mt-4"><i class="fa-solid fa-trash"></i>Delete</button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                <% } %>
+            </div>
+           <% } else { %>
+                <div class="alert alert-secondary">No reviews yet. Be the first to review this listing!</div>
+           <%}%>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,94 @@
+<%layout("layouts/boilerplate")%>
+<body>
+    <div class="row mt-4">
+    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+
+        <h3 class="mb-4">Create New Listing</h3>
+
+        <form action="/listings" method="POST" novalidate class="needs-validation">
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="listing[title]"
+                    placeholder="Enter title"
+                    required
+                >
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="listing[description]"
+                    placeholder="Enter description"
+                    required
+                ></textarea>
+                <div class="invalid-feedback">Description should be valid</div>
+            </div>
+            
+
+            <div class="mb-3">
+                <label class="form-label">Image URL</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="listing[image][url]"
+                    placeholder="Enter image URL"
+                >
+                <div class="invalid-feedback">Image Link should be valid</div>
+            </div>
+            
+
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    name="listing[price]"
+                    placeholder="Enter price"
+                    required
+                >
+                <div class="invalid-feedback">Price should be valid</div>
+            </div>
+            
+ <!-- yaha par hum name field m listing[name] pass krte hai generally kewal name dete jo ki same post request k body m ise "name" as key jata aur wha destructure krte hai lekin yaha listing[name] se ye ho rha hai ki listing object create ho rha hai automatically aur usme "name" field hai -->
+            <div class="mb-3">
+                <label class="form-label">Country</label>
+                <input
+                    type="text"
+                    class="form-control"
+                      name="listing[country]" 
+                    placeholder="Enter country"
+                    required
+                >
+                <div class="invalid-feedback">Country should be valid</div>
+            </div>
+            
+
+            <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="listing[location]"
+                    placeholder="Enter location"
+                    required
+                >
+                <div class="invalid-feedback">Location should be valid</div>
+
+            </div>
+            
+            <button type="submit" class="btn btn-danger">
+                Add Listing
+            </button>
+
+        </form>
+
+    </div>
+</body>

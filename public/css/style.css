@@ -1,0 +1,256 @@
+.navbar{
+    height: 5rem;
+    background-color: white !important; 
+}
+
+.navbar .nav-link{
+    font-weight: 600;
+    color: #222 !important;
+}
+
+.navbar .nav-link:hover{
+    color: #fe424d !important;
+    transform: translateY(-1px);
+}
+.navbar-collapse{
+    background-color: rgba(255, 255, 255, 0.774);
+    padding: 1rem;
+    border-radius: 10px;
+}
+@media (max-width: 768px){
+    .navbar-collapse{
+        background-color: #f1f3f5;
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 0.5rem;
+        border: 1px solid #dee2e6;
+    }
+}
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+/* Footer */
+
+footer{
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.f-info{
+    width: 100%;
+}
+
+.f-info-socials,
+.f-info-links,
+.f-info div{
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.f-info-socials i{
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.f-info-socials i:hover{
+    color: #fe424d;
+}
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+    margin: 0 0.5rem;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+    color: #fe424d;
+}
+
+/* Cards */
+
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.listing-card:hover{
+    transform: translateY(-5px);
+    opacity: 0.85;
+}
+
+.listing-img{
+    width: 100% !important;
+    height: 16rem;           /* 20rem se kam */
+    object-fit: cover !important;
+    border-radius: 1rem !important;
+}
+
+.card-body{
+    padding: 0.75rem 0 !important;
+}
+
+.card-text{
+    color: #222222;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+/* Optional: Container spacing */
+
+.container{
+    max-width: 1400px;
+}
+
+form{
+    margin-bottom: 4rem;
+}
+
+.btn-danger{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.btn-danger:hover{
+    opacity: 0.9;
+}
+/* ===== Show Page Styling ===== */
+
+.show-container {
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.show-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.show-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+
+.show-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.show-img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+}
+
+.show-body {
+    padding: 24px 28px !important;
+}
+
+.show-description {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.show-body hr {
+    margin: 18px 0;
+    border-color: #eee;
+}
+
+.show-info {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.show-info i {
+    color: #ff385c; /* Airbnb-style red */
+    width: 18px;
+    text-align: center;
+}
+
+
+.show-buttons {
+    margin-top: 24px;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.edit-btn,
+.delete-btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    height: 42px;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.show-buttons form {
+    margin-bottom: 0;
+}
+
+.edit-btn:hover {
+    transform: translateY(-2px);
+}
+
+.delete-btn {
+    background-color: #ff385c;
+}
+
+.delete-btn:hover {
+    background-color: #e0314f;
+    transform: translateY(-2px);
+}
+.review-card{
+    border: none;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    padding-left: 1.5rem;
+}
+
+.review-card:hover{
+    transform: translateY(-4px);
+}
+
+.review-card .card-text{
+    font-size: 1rem;
+    color: #444;
+}
+
+.review-card .badge{
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+}
