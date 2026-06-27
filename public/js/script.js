@@ -17,3 +17,23 @@
     }, false)
   })
 })()
+
+
+setTimeout(() => {
+    const alert = document.querySelector(".auto-dismiss");
+
+    if (alert) {
+        const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+        bsAlert.close();
+    }
+}, 1000);
+
+//for future if we have multiple alerts
+// setTimeout(() => {
+//     const alerts = document.querySelectorAll(".auto-dismiss");
+
+//     alerts.forEach((alert) => {
+//         const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+//         bsAlert.close();
+//     });
+// }, 3000); // 3 seconds

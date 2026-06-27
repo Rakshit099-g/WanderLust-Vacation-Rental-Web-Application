@@ -13,6 +13,8 @@ const Review = require("./models/Review")
 const listingRouter = require("./routes/listings.js")
 const reviewRouter = require("./routes/reviews.js")
 
+const session = require("express-session")
+const flash = require("connect-flash")
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"
 //client side k validation k liye form validation aur error se kr diya
@@ -29,6 +31,20 @@ app.use(express.static(path.join(__dirname,"/public")))
 
 app.engine("ejs",ejsMate)
 
+let sessionOptions = {
+    secret:"mysecretcode",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{//cookie ka expiry set hogy aki abhi se kab expire hoga jo ki yaha par 7 din h
+        expires:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),//expires → Exact date/time batata hai ki cookie kab expire hogi.
+        maxAge:7 * 24 * 60 * 60 * 1000,//maxAge → Cookie kitni der (milliseconds) tak valid rahegi.
+        httpOnly:true
+    },
+}
+
+app.use(session(sessionOptions))
+app.use(flash())
+
 main().then(()=>{
     console.log("CONNECTED TO DB")
 }).catch(err=>{
@@ -38,19 +54,7 @@ main().then(()=>{
 async function main(){
     await mongoose.connect(MONGO_URL)
 }
-//validation Middleware
-//For server side validation of Listing
-const validateListing = (req,res,next)=>{
-    //joi ne individual fields k upar validation apply kar diya
-    let {error} = listingSchema.validate(req.body)//iska mtlb ye hai ki hum check kr rhe listingSchema k andar jo bhi schema define kiye kya wo define schema ko satisfy kr rhi hai (server side validation)
-    console.log(error)//joi ka provided result
-    if(error){
-        let errMsg = error.details.map((el) => el.message).join(", ");
-        throw new ExpressError(400,errMsg)
-    }else{
-        next()
-    }
-}
+
 
 
 //sare routes jo /listings se aa rhe pehle ye middleware le lega phir /listings/... k baad jo bhi routehoga wo listingRouter object k pass jayega mlrb router in routes aur wha se saare routes map ho jayenge
@@ -78,6 +82,13 @@ Kya URL "/listings" se start ho rahi hai?
 
 app.get("/",(req,res)=>{
     res.redirect("/listings")
+})
+
+//flash middleware ko listing k upar hi create krna hai kyuki hum use krne wale hai isko listing m 
+app.use((req,res,next)=>{
+    res.locals.success = req.flash("success")
+    res.locals.failure = req.flash("failure")
+    next()
 })
 
 app.use("/listings",listingRouter)

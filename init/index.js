@@ -16,7 +16,7 @@ async function main(){
 }
 
 async function initDB(){
-    await Listing.deleteMany({})
+    // await Listing.deleteMany({})
     await Listing.insertMany(initData.data)
 }
 

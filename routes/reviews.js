@@ -52,10 +52,10 @@ router.post("/",validateReview,wrapAsync(async (req,res)=>{
     let newReview = new Review(req.body.review) 
     let listing = await Listing.findById(id)
     listing.reviews.push(newReview)
-
     await newReview.save()
     await listing.save()
     //yaha par upar ki 4 line se humne ye handle kiya ki agar review create kr rhe hai toh wo review humare listing.reviews m bhi add ho jaye
+    req.flash("success","Review submitted!") //ye register kr rha hai flash message jaise hi redirect ho jayega tab flash ho jayega ho message
     res.redirect(`/listings/${id}`)
 }))
 
@@ -65,6 +65,7 @@ router.delete("/:review_id",wrapAsync(async(req,res)=>{    // https://chatgpt.co
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:review_id}})  // $pull --> reviews array se us review ki id remove kar dega.
     await Review.findByIdAndDelete(review_id)
     //upar ki 2 line se toh humne ye handle kiya ki agr hum review ko delete krte hai toh Review collection se delete hoga wo review and listing.revies se bhi delete ho jayega 
+    req.flash("success","Review Deleted successfully!!")
     res.redirect(`/listings/${id}`)
 }))
 //but abhi bhi ek case bach rha hai ki agar hum puri listing hi delete kr de toh Review colllection m uss listing k corresponding bhi review delete ho jana chaiye iske liye hum post middleware use krenge (see in listing.js) normal delete route par jab request ayegi tab wo findByIdAndDelete ko hit krega jisse wo internally findOneAndDelete wale ka post middleware par le jayega see (listing.js)
