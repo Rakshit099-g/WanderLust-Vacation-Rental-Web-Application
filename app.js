@@ -9,12 +9,20 @@ const wrapAsync = require("./utils/wrapAsync")
 const ExpressError = require("./utils/ExpressError")
 const {listingSchema,reviewSchema} = require("./schema.js")
 const Review = require("./models/Review")
+const User = require("./models/User.js")
+
+const passport = require("passport")
+const LocalStrategy = require("passport-local")
 
 const listingRouter = require("./routes/listings.js")
 const reviewRouter = require("./routes/reviews.js")
 
 const session = require("express-session")
 const flash = require("connect-flash")
+
+
+const userRouter = require("./routes/users.js")
+
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"
 //client side k validation k liye form validation aur error se kr diya
@@ -42,8 +50,6 @@ let sessionOptions = {
     },
 }
 
-app.use(session(sessionOptions))
-app.use(flash())
 
 main().then(()=>{
     console.log("CONNECTED TO DB")
@@ -84,16 +90,265 @@ app.get("/",(req,res)=>{
     res.redirect("/listings")
 })
 
+app.use(session(sessionOptions))
+app.use(flash())
+//Note session k baad hi passport ko use krna hai kyuki passport session ka use krta hai
+/*==================================================
+                SIGNUP
+==================================================
+
+Username
+Email
+Password
+      │
+      ▼
+User.register()
+      │
+      │  (passport-local-mongoose)
+      │  - Password ko Hash karta hai
+      │  - Salt Generate karta hai
+      │  - User ko MongoDB me Save karta hai
+      ▼
+
+MongoDB
+
+{
+_id : A123
+username : rakshit
+email : rakshit@gmail.com
+hash : #####
+salt : #####
+}
+
+❌ Passport use nahi hua
+❌ Passport-Local use nahi hua
+✅ Passport-Local-Mongoose use hua
+
+
+==================================================
+                LOGIN
+==================================================
+
+Username
+Password
+      │
+      ▼
+passport.authenticate("local")
+      │
+      │
+      ├── passport
+      │      Authentication process start karta hai
+      │
+      ├── passport-local
+      │      "local" strategy use karta hai
+      │      (Username + Password login)
+      │
+      └── passport-local-mongoose
+             User.authenticate()
+             Database se user nikalta hai
+             Hash compare karta hai
+
+      ▼
+Password Match
+      │
+      ▼
+passport.serializeUser()
+      │
+      │
+      ├── passport
+      │      Session banana start karta hai
+      │
+      └── passport-local-mongoose
+             User.serializeUser()
+             Sirf User ID Session me save karta hai
+
+      ▼
+
+Session
+
+{
+ passport:{
+    user:"A123"
+ }
+}
+
+
+==================================================
+             NEW REQUEST
+==================================================
+
+GET /listings
+
+Browser
+      │
+      ▼
+Session
+
+{
+ passport:{
+    user:"A123"
+ }
+}
+
+      │
+      ▼
+passport.session()
+      │
+      │
+      └── passport
+             Session ko read karta hai
+
+      ▼
+passport.deserializeUser()
+      │
+      │
+      ├── passport
+      │      deserialize process start karta hai
+      │
+      └── passport-local-mongoose
+             User.deserializeUser()
+             Internally User.findById("A123") chalata hai
+
+      ▼
+MongoDB
+
+{
+ _id:A123
+ username:rakshit
+ email:rakshit@gmail.com
+}
+
+      │
+      ▼
+req.user
+
+{
+ _id:A123
+ username:"rakshit"
+ email:"rakshit@gmail.com"
+}
+
+      │
+      ▼
+
+Route
+
+console.log(req.user.username)
+
+Output
+
+rakshit
+*/
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+
+app.get("/demoUser",async (req,res)=>{
+      let newUser = new User({
+            email:"tuy@gmail.com",
+            username:"pqr"
+      })
+
+      let registeredUser = await User.register(newUser,"helloworld") //.register(userdata,password,callback) passport-local-mongoose method
+      res.send(registeredUser)
+})
+
+
 //flash middleware ko listing k upar hi create krna hai kyuki hum use krne wale hai isko listing m 
+/*
+User Clicks Submit
+        │
+        ▼
+POST /listings
+        │
+        ▼
+Listing Saved
+        │
+        ▼
+req.flash("success","Listing Created")
+        │
+        ▼
+Session
+
+{
+ flash:{
+   success:[
+      "Listing Created"
+ ]
+}
+}
+        │
+        ▼
+res.redirect("/listings")
+        │
+        ▼
+Browser Sends New GET Request
+        │
+        ▼
+Express Middleware
+        │
+        ▼
+req.flash("success")
+        │
+        ├──── Reads Message
+        │
+        ├──── Deletes Message
+        │
+        ▼
+Returns
+
+["Listing Created"]
+        │
+        ▼
+res.locals.successMsg
+        │
+        ▼
+Route Handler
+        │
+        ▼
+res.render("index.ejs")
+        │
+        ▼
+EJS Receives
+
+successMsg
+        │
+        ▼
+Alert Displayed
+        │
+        ▼
+Response Finished
+        │
+        ▼
+res.locals Destroyed
+        │
+        ▼
+User Refresh
+        │
+        ▼
+req.flash("success")
+        │
+        ▼
+[]
+        │
+        ▼
+No Alert
+*/
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success")
-    res.locals.failure = req.flash("failure")
+    res.locals.error = req.flash("error")
     next()
 })
 
 app.use("/listings",listingRouter)
 
 app.use("/listings/:id/reviews",reviewRouter)
+
+app.use("/users",userRouter)
 
 
 //Invalid route handling

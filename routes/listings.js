@@ -49,7 +49,7 @@ router.get("/:id",wrapAsync(async (req,res)=>{
     const {id} = req.params
     const listing = await Listing.findById(id).populate("reviews")
     if(!listing){
-        req.flash("failure","Listing does not Exists!")
+        req.flash("error","Listing does not Exists!")
         return res.redirect("/listings")
     }
     res.render("listings/show.ejs",{listing})
@@ -60,7 +60,7 @@ router.get("/:id/edit",wrapAsync(async (req,res)=>{
     const {id} = req.params
     let listing = await Listing.findById(id)
     if(!listing){
-        req.flash("failure","Listing does not Exists!")
+        req.flash("error","Listing does not Exists!")
         return res.redirect("/listings")
     }
     res.render("listings/edit.ejs",{listing})
