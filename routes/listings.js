@@ -4,6 +4,7 @@ const Listing = require("../models/Listing")
 const wrapAsync = require("../utils/wrapAsync")
 const ExpressError = require("../utils/ExpressError")
 const {listingSchema} = require("../schema.js")
+const {isLoggedIn} = require("../middleware.js")
 
 
 
@@ -30,7 +31,7 @@ router.get("/",wrapAsync(async (req,res)=>{
 }))
 
 //Create route
-router.get("/new",(req,res)=>{
+router.get("/new",isLoggedIn,(req,res)=>{
     res.render("listings/new.ejs")
 })
 
@@ -56,7 +57,7 @@ router.get("/:id",wrapAsync(async (req,res)=>{
 }))
 
 //Update 
-router.get("/:id/edit",wrapAsync(async (req,res)=>{
+router.get("/:id/edit",isLoggedIn,wrapAsync(async (req,res)=>{
     const {id} = req.params
     let listing = await Listing.findById(id)
     if(!listing){
@@ -75,7 +76,7 @@ router.patch("/:id",validateListing,wrapAsync(async (req,res)=>{
 }))
 
 //DELETE  (baad m humne relationship with database wala bhi kaam kiya ki jab listing delete ho toh uske corresponding review m se uss listing ki data bhi delete ho jo ki post middleware handle kiya hai in Listing.js m)
-router.delete("/:id",wrapAsync(async(req,res)=>{
+router.delete("/:id",isLoggedIn ,wrapAsync(async(req,res)=>{
     let {id} = req.params
     await Listing.findByIdAndDelete(id)
     req.flash("success","Deleted Successfully!")

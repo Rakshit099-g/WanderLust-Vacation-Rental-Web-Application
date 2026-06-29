@@ -30,6 +30,8 @@ const wrapAsync = require("../utils/wrapAsync")
 const ExpressError = require("../utils/ExpressError")
 const {reviewSchema} = require("../schema.js")
 const Review = require("../models/Review")
+const {isLoggedIn} = require("../middleware.js")
+
 
 
 
@@ -47,7 +49,7 @@ const validateReview = (req,res,next)=>{
 
 //Review post route one to many database relationship
 //Create Review 
-router.post("/",validateReview,wrapAsync(async (req,res)=>{
+router.post("/",isLoggedIn ,validateReview,wrapAsync(async (req,res)=>{
     let {id} = req.params
     let newReview = new Review(req.body.review) 
     let listing = await Listing.findById(id)
@@ -60,7 +62,7 @@ router.post("/",validateReview,wrapAsync(async (req,res)=>{
 }))
 
 //Delete Review
-router.delete("/:review_id",wrapAsync(async(req,res)=>{    // https://chatgpt.com/c/6a3d2b55-8d14-83e8-b636-9e6470dae6ba(For revision)
+router.delete("/:review_id",isLoggedIn ,wrapAsync(async(req,res)=>{    // https://chatgpt.com/c/6a3d2b55-8d14-83e8-b636-9e6470dae6ba(For revision)
     let {id,review_id} = req.params
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:review_id}})  // $pull --> reviews array se us review ki id remove kar dega.
     await Review.findByIdAndDelete(review_id)

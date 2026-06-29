@@ -247,15 +247,15 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 
-app.get("/demoUser",async (req,res)=>{
-      let newUser = new User({
-            email:"tuy@gmail.com",
-            username:"pqr"
-      })
+// app.get("/demoUser",async (req,res)=>{
+//       let newUser = new User({
+//             email:"tuy@gmail.com",
+//             username:"pqr"
+//       })
 
-      let registeredUser = await User.register(newUser,"helloworld") //.register(userdata,password,callback) passport-local-mongoose method
-      res.send(registeredUser)
-})
+//       let registeredUser = await User.register(newUser,"helloworld") //.register(userdata,password,callback) passport-local-mongoose method
+//       res.send(registeredUser)
+// })
 
 
 //flash middleware ko listing k upar hi create krna hai kyuki hum use krne wale hai isko listing m 
@@ -341,6 +341,7 @@ No Alert
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success")
     res.locals.error = req.flash("error")
+    res.locals.currUser = req.user //hum ek local variable bana rhe hai session k andar jo saare ejs pages m available hoga during session(signin signup and logout ko handle krne k liye ki kab wo dikhega ya nhi uske liye req.user ka access chaiye tha)
     next()
 })
 

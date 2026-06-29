@@ -254,3 +254,15 @@ form{
     font-size: 0.9rem;
     padding: 0.5rem 0.8rem;
 }
+.auth-link{
+    color: #222 !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    padding: 8px 15px !important;
+}
+
+.auth-link:hover{
+    color: #fe424d !important;
+    background-color: rgba(254,66,77,0.08);
+}
