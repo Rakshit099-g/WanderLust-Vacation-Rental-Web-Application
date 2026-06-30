@@ -36,7 +36,11 @@ const listingSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:"Review"
         }
-    ]
+    ],
+    owner:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }
 });
 //Post middleware hai jab hum listing ko hi delete kr de tab reviews bhi delete ho jana chaiye
 listingSchema.post("findOneAndDelete",async (listing)=>{

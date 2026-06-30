@@ -14,9 +14,21 @@
                     class="show-img"
                     alt="listing image"
                 >
+                
 
                 <div class="card-body show-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="owner-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
 
+                            <div class="ms-3">
+                                <small class="text-muted d-block">Hosted by</small>
+                                <h6 class="mb-0 fw-bold">
+                                    <%= listing.owner.username %>
+                                </h6>
+                            </div>
+                        </div>
                     <p class="show-description">
                         <%= listing.description %>
                     </p>
@@ -37,7 +49,8 @@
                 </div>
 
             </div>
-
+        <!-- hum yaha se edit aur delete listing ka button tab hi display krenge jab current logged in User or listing ka user same ho  currUser as res.locals app.js m hai-->
+           
             <div class="show-buttons mt-3">
 
                 <a
@@ -59,6 +72,9 @@
                 </form>
 
             </div>
+          
+
+
 
             <!-- Review Form -->
 
@@ -149,7 +165,7 @@
                                 >
                                     <h5 class="card-title mb-0">
                                         <i class="fa-solid fa-user-circle"></i>
-                                        Guest
+                                        <%=review.author.username%>
                                     </h5>
 
                                     <span class="badge bg-dark">

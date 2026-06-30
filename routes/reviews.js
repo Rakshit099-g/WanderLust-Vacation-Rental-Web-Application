@@ -30,30 +30,19 @@ const wrapAsync = require("../utils/wrapAsync")
 const ExpressError = require("../utils/ExpressError")
 const {reviewSchema} = require("../schema.js")
 const Review = require("../models/Review")
-const {isLoggedIn} = require("../middleware.js")
-
-
-
-
-//For server side validation of Review
-const validateReview = (req,res,next)=>{
-    let {error} = reviewSchema.validate(req.body) //validate joi ka predefined validate method h aur reviewSchema(schema.js m defined hai) par validate kiya gya hai 
-    if(error){
-        let errMsg = error.details.map((el)=>el.message).join(",")
-        throw new ExpressError(400,errMsg)
-    }
-    else{
-        next()
-    }
-}
+const {isLoggedIn,isAuthor,validateReview} = require("../middleware.js")
 
 //Review post route one to many database relationship
 //Create Review 
 router.post("/",isLoggedIn ,validateReview,wrapAsync(async (req,res)=>{
     let {id} = req.params
     let newReview = new Review(req.body.review) 
+
+    newReview.author = req.user._id //added author of new review
+    
     let listing = await Listing.findById(id)
     listing.reviews.push(newReview)
+    console.log(newReview)
     await newReview.save()
     await listing.save()
     //yaha par upar ki 4 line se humne ye handle kiya ki agar review create kr rhe hai toh wo review humare listing.reviews m bhi add ho jaye
@@ -62,7 +51,7 @@ router.post("/",isLoggedIn ,validateReview,wrapAsync(async (req,res)=>{
 }))
 
 //Delete Review
-router.delete("/:review_id",isLoggedIn ,wrapAsync(async(req,res)=>{    // https://chatgpt.com/c/6a3d2b55-8d14-83e8-b636-9e6470dae6ba(For revision)
+router.delete("/:review_id",isLoggedIn,isAuthor ,wrapAsync(async(req,res)=>{    // https://chatgpt.com/c/6a3d2b55-8d14-83e8-b636-9e6470dae6ba(For revision)
     let {id,review_id} = req.params
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:review_id}})  // $pull --> reviews array se us review ki id remove kar dega.
     await Review.findByIdAndDelete(review_id)

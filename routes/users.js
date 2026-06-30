@@ -81,7 +81,7 @@ Redirect     ▼             ▼
 /*1. abhi tak login jab hum krte the toh wo /listings par redirect kr deta tha login k baad.Ab hum chahte hai ki login k pehle jis page par hum jana chah rhe the ussi par chale jaye 
 jaise maan lo ki hum bina login kiye hue create new listing par ja rhe hai toh  wo hume login krne k liye bolega, phir jaise hi hum login kr lenge toh login k baad create new listing wale par redirect hona chahte teh lekin abhi tak hum /listings par ho rhe the. 
 
-2.Isko achieve krne k liye jab hum create new listing par ja rhe hai toh uss time par hum uska path save kr lete hai through middleware.js jisme req contain krta hai "originalUrl". 
+2.Isko achieve krne k liye jab hum create new listing par ja rhe hai toh uss time par hum uska path save kr lete hai through middleware.js jisme req contain krta hai "originalUrl" field. 
 
 3.: go to "middleware.js"
 */
@@ -101,9 +101,9 @@ router.post("/login",
     saveRedirectUrl,
     passport.authenticate('local',{failureRedirect:"/users/login",failureFlash:true}),//
     async (req,res)=>{
-   // res.redirect(res.locals.redirectUrl) // isme ek aur flaw hai ki jab iss /login route par jayenge toh iss post request m toh loggedIn middleware trigger ho hi nhi rha hai toh hum req.session.redirectUrl me /login wala path store hi nhi ho rha hai  
+   // res.redirect(res.locals.redirectUrl) // isme ek aur flaw hai ki jab iss /login route par jayenge toh iss post request m toh loggedIn middleware trigger ho hi nhi rha hai toh hum req.session.redirectUrl ko access hi mhi kr paynge toh iske liye hum ek middleware bana rhe saveRedirectUrl
     let redirectPage = (res.locals.redirectUrl) || "/listings"
-   res.redirect(redirectPage)
+    res.redirect(redirectPage)
 })
 
 

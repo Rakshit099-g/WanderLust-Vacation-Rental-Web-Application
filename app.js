@@ -341,7 +341,7 @@ No Alert
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success")
     res.locals.error = req.flash("error")
-    res.locals.currUser = req.user //hum ek local variable bana rhe hai session k andar jo saare ejs pages m available hoga during session(signin signup and logout ko handle krne k liye ki kab wo dikhega ya nhi uske liye req.user ka access chaiye tha)
+    res.locals.currUser = req.user //hum ek local variable bana rhe hai session k andar jo saare ejs pages m available hoga during session (signin signup and logout ko handle krne k liye ki kab wo dikhega ya nhi uske liye req.user ka access chaiye tha)
     next()
 })
 
