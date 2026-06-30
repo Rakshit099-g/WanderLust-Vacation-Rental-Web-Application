@@ -9,9 +9,15 @@ const ExpressError = require("./utils/ExpressError")
 module.exports.isLoggedIn = (req,res,next)=>{
     //logged in hone se pehle hum originalUrl ko save kr  lenge
     if(!req.isAuthenticated()){
+        if (req.method === "POST" && req.params.id) {
+            req.session.redirectUrl = `/listings/${req.params.id}`;
+        }//if condition usko handle krne k liye jab hum login nhi hai aur review add krna chah rhe hai toh login kryega pehle but jaise hi login par click krega wha se wo get request bhejta hai par reviews k liye kewal post request hai isiliye ye kra
+        else{
         req.session.redirectUrl = req.originalUrl
+        }
         req.flash("error","You must be LoggedIn")
         return res.redirect("/users/login")
+        
     }
     next()
 }

@@ -4,37 +4,14 @@ const User  = require("../models/User")
 const wrapAsync = require("../utils/wrapAsync")
 const passport = require("passport")
 const {saveRedirectUrl} = require("../middleware.js")
+const userController = require("../controllers/user.js")
 //signup
-router.get("/signup",(req,res)=>{
-    res.render("users/signup.ejs")
-})
+router.get("/signup",userController.renderSignUpForm)
 
-router.post("/signup",wrapAsync(async (req,res)=>{
-    try{
-        let {username,email,password} = req.body
-        let newUser = new User({email,username})
-        let registeredUser = await User.register(newUser,password)
-       
-        //signup hone k baad automatically login hone k liye hum passport ka req.login(user,callback) use krenge
-       
-        req.login(registeredUser,(err)=>{
-            if(err){
-                return next(err)
-            }
-            req.flash("success","you are logged In!!")
-            res.redirect("/listings")
-        })
-    }
-    catch(err){
-        req.flash("error","User already exists!")
-        res.redirect("/users/signup")
-    }
-}))
+router.post("/signup",wrapAsync(userController.userSignup))
 
 //Login
-router.get("/login",(req,res)=>{
-    res.render("users/login.ejs")
-})
+router.get("/login",userController.renderLoginForm)
 /*
 POST /users/login
         │
@@ -97,26 +74,9 @@ router.post("/login",
 })
 */
 
-router.post("/login",
-    saveRedirectUrl,
-    passport.authenticate('local',{failureRedirect:"/users/login",failureFlash:true}),//
-    async (req,res)=>{
-   // res.redirect(res.locals.redirectUrl) // isme ek aur flaw hai ki jab iss /login route par jayenge toh iss post request m toh loggedIn middleware trigger ho hi nhi rha hai toh hum req.session.redirectUrl ko access hi mhi kr paynge toh iske liye hum ek middleware bana rhe saveRedirectUrl
-    let redirectPage = (res.locals.redirectUrl) || "/listings"
-    res.redirect(redirectPage)
-})
-
-
+router.post("/login",saveRedirectUrl,passport.authenticate('local',{failureRedirect:"/users/login",failureFlash:true}),userController.userLogin)
 
 //logout
-router.get("/logout",(req,res,next)=>{
-    req.logout((err)=>{
-        if(err){
-            return next(err)
-        }
-        req.flash("success","you are logged out now!!")
-        res.redirect("/listings")
-    })
-})
+router.get("/logout",userController.userLogout)
 
 module.exports = router
