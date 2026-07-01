@@ -103,8 +103,6 @@ npm install
 Create a `.env` file and add the required credentials:
 
 ```env
-ATLASDB_URL=
-SECRET=
 CLOUD_NAME=
 CLOUD_API_KEY=
 CLOUD_API_SECRET=
