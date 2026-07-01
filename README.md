@@ -1,20 +1,25 @@
-# 🏡 Wanderlust – Vacation Rental Web Application
+# 🏡 WanderLust – Vacation Rental Web Application
 
-A backend-focused vacation rental web application built using **Node.js, Express.js, MongoDB, Mongoose, and EJS**. The application allows users to manage property listings and reviews while following RESTful principles and server-side rendering.
+A full-stack vacation rental web application built using **Node.js, Express.js, MongoDB, Mongoose, and EJS**. The application enables users to create and manage property listings, upload images, authenticate securely, and post reviews while following RESTful architecture and server-side rendering.
 
 ---
 
 ## 🚀 Features
 
+- User Authentication & Authorization using Passport.js
+- Secure session management with Express Session
+- Flash messages for user feedback
 - Create, Read, Update, and Delete (CRUD) operations for property listings
-- Add and manage reviews for listings
+- Add, edit, and delete reviews for listings
+- Image upload and cloud storage using Cloudinary and Multer
 - Server-side validation using Joi
 - Centralized error handling using custom middleware
-- MongoDB database integration with Mongoose
-- Mongoose Populate for handling document relationships
+- MongoDB integration with Mongoose
+- Mongoose Populate for managing document relationships
 - RESTful routing with Method Override
-- Dynamic server-side rendering using EJS
+- Dynamic server-side rendering using EJS and EJS-Mate
 - Responsive user interface using Bootstrap
+- Environment variable management using dotenv
 
 ---
 
@@ -34,20 +39,37 @@ A backend-focused vacation rental web application built using **Node.js, Express
 - HTML
 - CSS
 
+### Authentication
+- Passport.js
+- passport-local-mongoose
+- Express Session
+- Connect Flash
+
+### File Storage
+- Cloudinary
+- Multer
+
+### Validation
+- Joi
+
 ### Tools
 - Git
 - VS Code
+- dotenv
 
 ---
 
 ## 📂 Project Structure
 
-```
-Wanderlust/
+```text
+WanderLust/
+│── controllers/
 │── models/
-│── views/
-│── public/
+│── routes/
+│── middleware.js
 │── utils/
+│── public/
+│── views/
 │── init/
 │── app.js
 │── package.json
@@ -76,6 +98,18 @@ cd WanderLust-Vacation-Rental-Web-Application
 npm install
 ```
 
+### Configure Environment Variables
+
+Create a `.env` file and add the required credentials:
+
+```env
+ATLASDB_URL=
+SECRET=
+CLOUD_NAME=
+CLOUD_API_KEY=
+CLOUD_API_SECRET=
+```
+
 ### Start the application
 
 ```bash
@@ -86,10 +120,12 @@ node app.js
 
 ## 🔮 Future Improvements
 
-- User Authentication & Authorization
-- Image Upload with Cloudinary
+- Search and Filter functionality
+- Pagination for property listings
 - Interactive Maps Integration
-- Online Booking Functionality
+- Online Booking System
+- Payment Gateway Integration
+- Email Notifications
 - Deployment on Render
 
 ---
@@ -98,5 +134,4 @@ node app.js
 
 **Rakshit Gupta**
 
-- GitHub: https://github.com/Rakshit099-g
-
+GitHub: https://github.com/Rakshit099-g
