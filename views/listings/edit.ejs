@@ -8,7 +8,7 @@
 
         <h3 class="mb-4">Edit Listing</h3>
 
-        <form action="/listings/<%= listing._id %>?_method=PATCH" method="POST" novalidate class="needs-validation">
+        <form action="/listings/<%= listing._id %>?_method=PATCH" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
 
             <div class="mb-3">
                 <label class="form-label">Title</label>
@@ -34,15 +34,19 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Image URL</label>
+                <label class="form-label">Previous Uploaded Image</label>
+                <br>
+                <img src="<%=originalImage%>" alt="">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Upload new Image</label>
                 <input
-                    type="text"
+                    type="file"
                     class="form-control"
-                    name="listing[image][url]"
+                    name="listing[image]"
                     value="<%=listing.image.url%>"
-                    required
                 >
-                <div class="invalid-feedback">Image Link should be valid</div>
             </div>
 
             <div class="mb-3">

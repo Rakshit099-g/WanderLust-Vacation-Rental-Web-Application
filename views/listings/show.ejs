@@ -50,7 +50,7 @@
 
             </div>
         <!-- hum yaha se edit aur delete listing ka button tab hi display krenge jab current logged in User or listing ka user same ho  currUser as res.locals app.js m hai-->
-           
+           <%if(currUser && listing.owner._id.equals(currUser._id)){%>
             <div class="show-buttons mt-3">
 
                 <a
@@ -72,6 +72,7 @@
                 </form>
 
             </div>
+            <%}%>
           
 
 
@@ -92,26 +93,29 @@
                 >
 
                     <!-- Rating -->
-
                     <div class="mb-4">
-                        <label for="rating" class="form-label fw-bold">
-                            Rating:
-                            <span id="ratingValue">3</span>/5
-                        </label>
+                            <label class="form-label fw-bold">Rating:</label>
 
-                        <input
-                            type="range"
-                            class="form-range"
-                            min="1"
-                            max="5"
-                            step="1"
-                            value="3"
-                            id="rating"
-                            name="review[rating]"
-                            oninput="ratingValue.innerText=this.value"
-                        >
+                            <fieldset class="starability-slot">
+                                <input type="radio" id="rate1" name="review[rating]" value="1" />
+                                <label for="rate1" title="Terrible">1 star</label>
+
+                                <input type="radio" id="rate2" name="review[rating]" value="2" />
+                                <label for="rate2" title="Not good">2 stars</label>
+
+                                <input type="radio" id="rate3" name="review[rating]" value="3" checked />
+                                <label for="rate3" title="Average">3 stars</label>
+                                
+                                <input type="radio" id="rate4" name="review[rating]" value="4" />
+                                <label for="rate4" title="Very good">4 stars</label>
+
+
+                                <input type="radio" id="rate5" name="review[rating]" value="5" />
+                                <label for="rate5" title="Amazing">5 stars</label>
+
+                            </fieldset>
                     </div>
-
+                   
                     <!-- Comment -->
 
                     <div class="mb-4">
