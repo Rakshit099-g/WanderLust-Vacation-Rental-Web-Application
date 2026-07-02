@@ -1,5 +1,13 @@
 const Listing = require("../models/Listing")
 
+const NodeGeocoder = require("node-geocoder") //map k liye taki coordinates ko store kra paye
+const options = {
+    provider:'openstreetmap'
+}
+const geocoder = NodeGeocoder(options)
+
+
+
 module.exports.index = async (req,res)=>{
     const allListing = await Listing.find({})
      res.render("listings/index.ejs", { allListing }); 
@@ -14,10 +22,31 @@ module.exports.createListing = async (req,res,next)=>{
     let url = req.file.path
     let filename = req.file.filename
 
-
+    let computedGeometry = {
+    type: "Point",
+    coordinates: [77.2090, 28.6139] // Default Delhi if not found
+    };
+    const fullAddress = `${req.body.listing.location}, ${req.body.listing.country}`;
+    const geoData = await geocoder.geocode(fullAddress)
+    console.log(geoData)
     const newListing = new Listing(req.body.listing)
+    if (geoData && geoData.length > 0) {
+            newListing.geometery = {
+                type: "Point",
+                coordinates: [geoData[0].longitude, geoData[0].latitude]
+            };
+        } else {
+            // Fallback Delhi coordinates
+            newListing.geometery = {
+                type: "Point",
+                coordinates: [77.2090, 28.6139]
+            };
+        }
+    
+
     newListing.owner = req.user._id
     newListing.image = {url,filename}
+
     await newListing.save()
     console.log(newListing)
     req.flash("success","Listing is created successfully!")

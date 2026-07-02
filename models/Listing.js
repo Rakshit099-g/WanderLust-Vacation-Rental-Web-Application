@@ -31,6 +31,20 @@ const listingSchema = new mongoose.Schema({
 
     location: String,
     country: String,
+// in mongodb the location coorsinates stores in geojson format
+
+    geometery:{
+        type:{
+            type:String,
+            enum:['Point'],
+            required:true
+
+        },
+        coordinates:{
+            type:[Number],
+            required:true
+        }
+    },
     reviews:[//hum reviews enter krenge directly from show page aur ye review database m particular listing k saath store hoga due to one to many relationship
         {
             type:mongoose.Schema.Types.ObjectId,

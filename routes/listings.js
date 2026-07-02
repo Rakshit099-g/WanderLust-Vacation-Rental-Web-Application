@@ -12,6 +12,8 @@ const {storage} = require("../cloudConfig.js")
 
 const multer  = require('multer')
 const upload = multer({storage})
+
+
 /*
 router.route() aur router.get(), router.post() me bas itna difference hai ki same URL ke multiple HTTP methods ko ek jagah group kar deta hai.
 */
