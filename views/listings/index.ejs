@@ -1,4 +1,98 @@
 <% layout("/layouts/boilerplate")%>
+
+
+<div class="filters-container">
+
+    <div class="filters">
+        <div class="filter">
+            <a href="/listings/category/cabins" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-house"></i>
+                <p>Cabins</p>
+            </a>
+        </div>
+
+        <div class="filter">
+            
+            <a href="/listings/category/rooms" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-bed"></i>
+                <p>Rooms</p>
+            </a>
+            
+        </div>
+
+        <div class="filter">
+            <a href="/listings/category/omg" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-fire"></i>
+                <p>OMG!</p>
+            </a>
+        </div>
+
+        <div class="filter">
+            <a href="/listings/category/farms" class="text-dark text-decoration-none">
+            <i class="fa-solid fa-tractor"></i>
+            <p>Farms</p>
+            </a>
+        </div>
+
+        
+
+        <div class="filter">
+            <a href="/listings/category/amazing views" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-mountain-city"></i>
+                <p>Amazing Views</p>
+            </a>
+        </div>
+
+        <div class="filter">
+            <a href="/listings/category/iconic cities" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-city"></i>
+                <p>Iconic Cities</p>
+            </a>
+        </div>
+
+        <div class="filter">
+            <a href="/listings/category/surfing" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-water"></i>
+                <p>Surfing</p>
+            </a>
+        </div>
+
+        <div class="filter">
+            <a href="/listings/category/pools" class="text-dark text-decoration-none">
+            <i class="fa-solid fa-person-swimming" class="text-dark text-decoration-none"></i>
+            <p>Pools</p>
+            </a>
+        </div>
+
+        <div class="filter">
+                <a href="/listings/category/beach" class="text-dark text-decoration-none"><i class="fa-solid fa-umbrella-beach"></i>
+                <p>Beach</p>
+            </a>
+        </div>
+
+        
+
+        <div class="filter">
+            <a href="/listings/category/lakefront" class="text-dark text-decoration-none">
+                <i class="fa-solid fa-water-ladder"></i>
+                <p>Lakefront</p>
+            </a>
+        </div>
+
+    </div>
+    <div class="tax-toggle">
+    <div class="form-check form-switch m-0">
+        <input class="form-check-input" type="checkbox" id="taxSwitch">
+    </div>
+
+    <label class="form-check-label" for="taxSwitch">
+        Display total after taxes
+    </label>
+</div>
+
+</div>
+
+
 <div class="row">
     
     <% for(let listing of allListing){ %>
@@ -15,8 +109,15 @@
 
                     <div class="card-body">
                         <p class="card-text">
-                            <b><%= listing.title %></b> <br>
-                            &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                            <b><%= listing.title %></b><br>
+
+                            <span
+                                class="listing-price"
+                                data-price="<%= listing.price %>">
+
+                                &#8377; <%= listing.price.toLocaleString("en-IN") %>
+                            </span>
+                            / night
                         </p>
                     </div>
                 </div>
@@ -26,3 +127,4 @@
     <% } %>
 
 </div>
+<script src="/js/tax.js"></script>

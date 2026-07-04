@@ -84,7 +84,13 @@ module.exports.renderEditForm = async (req,res)=>{
         return res.redirect("/listings")
     }
     let originalImage = listing.image.url
-    originalImage = originalImage.replace("/upload","/upload/c_fill,w_250") //image k pixel ko change krne k liye aur previously uploaded image ko show krne k liye
+    // originalImage = originalImage.replace("/upload","/upload/c_fill,w_250") //image k pixel ko change krne k liye aur previously uploaded image ko show krne k liye
+    if (originalImage.includes("res.cloudinary.com")) {
+        originalImage = originalImage.replace(
+            "/upload",
+            "/upload/c_fill,w_250"
+    );
+}
     res.render("listings/edit.ejs",{listing,originalImage})
 }
 
@@ -94,7 +100,6 @@ module.exports.updateListings = async (req,res)=>{
     
     //image edit form se update krne k liye
     
-
     if(typeof req.file!== "undefined"){ //image edit form m required nhi hai toh ho skta hai ki blank hi reh jaye issiliye aur agar hum phir save kr diye toh existing image update hokar null image rhega issiliye hum tab hi update renge jab file hoga
         let url = req.file.path
         let filename = req.file.filename
@@ -111,4 +116,26 @@ module.exports.destroyListing = async(req,res)=>{
     await Listing.findByIdAndDelete(id)
     req.flash("success","Deleted Successfully!")
     res.redirect("/listings")
+}
+module.exports.findLocationListing = async (req,res)=>{
+    let {location} = req.query
+    const allListing = await Listing.find({location:{
+        $regex:location,
+        $options:"i"
+    }})
+    if (allListing.length === 0) {
+        req.flash("error", "No listings found for this location.");
+        return res.redirect("/listings");
+    }
+    res.render("listings/index.ejs",{allListing})
+}
+
+module.exports.findCategory = async (req,res)=>{
+    let {category} = req.params
+    let allListing = await Listing.find({category:category})
+    if (allListing.length === 0) {
+        req.flash("error", "No listings found for this category.");
+        return res.redirect("/listings");
+    }
+    res.render("listings/index.ejs",{allListing})
 }

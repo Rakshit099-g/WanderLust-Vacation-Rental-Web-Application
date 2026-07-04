@@ -54,7 +54,23 @@ const listingSchema = new mongoose.Schema({
     owner:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
-    }
+    },
+    category: {
+    type: String,
+    enum: [
+        "cabins",
+        "rooms",
+        "omg",
+        "farms",
+        "amazing views",
+        "iconic cities",
+        "surfing",
+        "pools",
+        "beach",
+        "lakefront"
+    ],
+    required: true
+}
 });
 //Post middleware hai jab hum listing ko hi delete kr de tab reviews bhi delete ho jana chaiye
 listingSchema.post("findOneAndDelete",async (listing)=>{

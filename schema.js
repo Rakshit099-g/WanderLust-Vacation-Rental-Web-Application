@@ -436,7 +436,9 @@ module.exports.listingSchema = Joi.object({
         image:Joi.object({
             filename:Joi.string().allow("",null),
             url:Joi.string().allow("",null)
-        }).required()
+        }).required(),
+        category: Joi.string().valid("cabins","rooms","omg","farms","amazing views","iconic cities","surfing","pools","beach","lakefront"
+    ).required()
     }).required()
 })
 

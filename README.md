@@ -1,25 +1,28 @@
 # 🏡 WanderLust – Vacation Rental Web Application
 
-A full-stack vacation rental web application built using **Node.js, Express.js, MongoDB, Mongoose, and EJS**. The application enables users to create and manage property listings, upload images, authenticate securely, and post reviews while following RESTful architecture and server-side rendering.
+A full-stack vacation rental web application built using **Node.js, Express.js, MongoDB, Mongoose, Express, and EJS**. The application allows users to browse vacation rentals, create and manage property listings, upload images, securely authenticate, leave reviews, search listings by location, and filter properties by category while following the **MVC Architecture** and **RESTful Routing** principles.
 
 ---
 
 ## 🚀 Features
 
-- User Authentication & Authorization using Passport.js
-- Secure session management with Express Session
-- Flash messages for user feedback
-- Create, Read, Update, and Delete (CRUD) operations for property listings
-- Add, edit, and delete reviews for listings
-- Image upload and cloud storage using Cloudinary and Multer
-- Server-side validation using Joi
-- Centralized error handling using custom middleware
-- MongoDB integration with Mongoose
-- Mongoose Populate for managing document relationships
-- RESTful routing with Method Override
-- Dynamic server-side rendering using EJS and EJS-Mate
-- Responsive user interface using Bootstrap
-- Environment variable management using dotenv
+- 🔐 User Authentication & Authorization using Passport.js
+- 👤 Secure session management with Express Session
+- 💬 Flash messages for user feedback
+- 🏠 Create, Read, Update, and Delete (CRUD) operations for property listings
+- ⭐ Add, edit, and delete reviews
+- 🔍 Search listings by location
+- 🏷️ Filter listings by category
+- 💰 Toggle listing prices with taxes
+- ☁️ Image upload and cloud storage using Cloudinary & Multer
+- ✅ Server-side validation using Joi
+- ⚠️ Centralized error handling using custom middleware
+- 🗂️ MongoDB integration with Mongoose
+- 🔗 Mongoose Populate for document relationships
+- 🔄 RESTful Routing with Method Override
+- 🎨 Dynamic server-side rendering using EJS & EJS-Mate
+- 📱 Responsive UI using Bootstrap
+- 🔒 Environment variable management using dotenv
 
 ---
 
@@ -38,6 +41,7 @@ A full-stack vacation rental web application built using **Node.js, Express.js, 
 - Bootstrap
 - HTML
 - CSS
+- JavaScript
 
 ### Authentication
 - Passport.js
@@ -45,15 +49,20 @@ A full-stack vacation rental web application built using **Node.js, Express.js, 
 - Express Session
 - Connect Flash
 
-### File Storage
-- Cloudinary
+### File Upload & Storage
 - Multer
+- Cloudinary
 
 ### Validation
 - Joi
 
+### Architecture
+- MVC (Model-View-Controller)
+- RESTful Routing
+
 ### Tools
 - Git
+- GitHub
 - VS Code
 - dotenv
 
@@ -63,73 +72,99 @@ A full-stack vacation rental web application built using **Node.js, Express.js, 
 
 ```text
 WanderLust/
-│── controllers/
-│── models/
-│── routes/
-│── middleware.js
-│── utils/
-│── public/
-│── views/
-│── init/
-│── app.js
-│── package.json
-│── package-lock.json
+│
+├── controllers/
+├── models/
+├── routes/
+├── views/
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── utils/
+├── init/
+├── middleware.js
+├── cloudConfig.js
+├── schema.js
+├── app.js
+├── package.json
+└── README.md
 ```
 
 ---
 
 ## ⚙️ Installation
 
-### Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Rakshit099-g/WanderLust-Vacation-Rental-Web-Application.git
 ```
 
-### Navigate to the project
+### 2. Navigate to the Project
 
 ```bash
 cd WanderLust-Vacation-Rental-Web-Application
 ```
 
-### Install dependencies
+### 3. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Configure Environment Variables
+### 4. Configure Environment Variables
 
-Create a `.env` file and add the required credentials:
+Create a `.env` file in the root directory.
 
 ```env
+ATLASDB_URL=
+
+SECRET=
+
 CLOUD_NAME=
+
 CLOUD_API_KEY=
+
 CLOUD_API_SECRET=
 ```
 
-### Start the application
+---
+
+### 5. Start the Server
 
 ```bash
 node app.js
 ```
 
+or
+
+```bash
+npm start
+```
+
 ---
+
+
 
 ## 🔮 Future Improvements
 
-- Search and Filter functionality
-- Pagination for property listings
-- Interactive Maps Integration
+- Pagination
+- Interactive Maps (Mapbox)
+- Wishlist / Favorites
 - Online Booking System
 - Payment Gateway Integration
 - Email Notifications
-- Deployment on Render
+- Admin Dashboard
+- AI-based Property Recommendations
 
 ---
 
 ## 👨‍💻 Author
 
-**Rakshit Gupta**
+### Rakshit Gupta
 
-GitHub: https://github.com/Rakshit099-g
+GitHub:  
+https://github.com/Rakshit099-g
+
+---

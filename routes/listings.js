@@ -29,6 +29,8 @@ router.route("/")
 //Create route
 router.get("/new",isLoggedIn,listingController.renderNewForm)
 
+//search destination 
+router.get("/search",wrapAsync(listingController.findLocationListing))
 
 //show route 
 router.route("/:id")
@@ -39,5 +41,8 @@ router.route("/:id")
 
 //Update 
 router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync(listingController.renderEditForm))
+
+//for filters
+router.get("/category/:category",wrapAsync(listingController.findCategory))
 
 module.exports = router

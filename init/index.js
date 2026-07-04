@@ -16,11 +16,14 @@ async function main(){
 }
 
 async function initDB(){
-     await Listing.deleteMany({})
+        /*  
+        //  await Listing.deleteMany({})
      
-    initData.data = initData.data.map((obj)=>({...obj,owner:"6a426073f43ceee280165b00"}))
-    await Listing.insertMany(initData.data)
-    
+    // initData.data = initData.data.map((obj)=>({...obj,owner:"6a426073f43ceee280165b00"}))
+     // await Listing.insertMany(initData.data)*/
+    let results = await Listing.updateMany({},{$set:{category:"rooms"}})
+   
+    console.log(results)
 }
 
 initDB()

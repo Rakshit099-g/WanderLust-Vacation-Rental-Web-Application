@@ -7,17 +7,31 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="/">Home</a>
-        <a class="nav-link" href="/listings">All Listing</a>
-        <a class="nav-link" href="/listings/new">Add New Listing</a>
-      </div>
+        <a class="nav-link" href="/listings">Explore</a>
+      </div >
+      <div class="d-flex justify-content-center flex-grow-1">
+        <form class="d-flex search-bar" role="search" action="/listings/search" method="GET">
+            <input
+                class="form-control search-input"
+                type="search"
+                name="location"
+                placeholder="Search destinations"
+                aria-label="Search"
+            >
+
+            <button class="btn search-btn" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
       
        <div class="navbar-nav ms-auto align-items-center">
+        <a class="nav-link" href="/listings/new">Add New Listing</a>
           <% if(!currUser){ %>
-              <a class="nav-link auth-link me-3" href="/users/signup">Sign Up</a>
-              <a class="nav-link auth-link" href="/users/login">Log In</a>
+              <a class="nav-link auth-link me-3" href="/users/signup"><i>Sign Up</i></a>
+              <a class="nav-link auth-link" href="/users/login"><i>Log In</i></a>
           <% } else { %>
-              <a class="nav-link auth-link" href="/users/logout">Log Out</a>
+              <a class="nav-link auth-link" href="/users/logout"><i>Log Out</i></a>
           <% } %>
         </div>
     </div>
