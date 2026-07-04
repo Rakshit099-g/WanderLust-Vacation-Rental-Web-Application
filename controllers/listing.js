@@ -119,10 +119,22 @@ module.exports.destroyListing = async(req,res)=>{
 }
 module.exports.findLocationListing = async (req,res)=>{
     let {location} = req.query
-    const allListing = await Listing.find({location:{
-        $regex:location,
-        $options:"i"
-    }})
+    const allListing = await Listing.find({
+         $or: [
+            {
+                location: {
+                    $regex: location,
+                    $options: "i",
+                },
+            },
+            {
+                country: {
+                    $regex: location,
+                    $options: "i",
+                },
+            },
+        ],
+    });
     if (allListing.length === 0) {
         req.flash("error", "No listings found for this location.");
         return res.redirect("/listings");

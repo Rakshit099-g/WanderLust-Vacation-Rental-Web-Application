@@ -12,7 +12,7 @@ const marker = new maptilersdk.Marker({ color: 'red' })
   .setLngLat(coordinates)
   .addTo(map);
 
-// const popup = new maptilersdk.Popup({ offset: 25 })
-//   .setHTML(`<h4>${listingTitle}</h4><p>Exact location provided after booking!</p>`);
+const popup = new maptilersdk.Popup({ offset: 25 })
+  .setHTML(`<h4>${listingTitle}</h4><p>Exact location provided after booking!</p>`);
 
-// marker.setPopup(popup);
+marker.setPopup(popup);

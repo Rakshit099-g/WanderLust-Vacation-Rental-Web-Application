@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express")
+const MongoStore = require("connect-mongo").default
 const app = express()
 const mongoose = require("mongoose")
 const Listing = require("./models/Listing")
@@ -28,7 +29,8 @@ const flash = require("connect-flash")
 const userRouter = require("./routes/users.js")
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"
+const dburl = process.env.ATLAS_URL
 //client side k validation k liye form validation aur error se kr diya
 //hum "joi" ko use krenge schema validation k liye different validation of different fields of schema on server side(ek question ye bhi aa skta hai ki hum apne website se toh galat data de hi nhi payenge form se kyuki fields required hai but ye hum tab k liye kr rhe jab khi postman ya hopscotch jaisi tools se direct post kiya jaye data aur fields(like description,location) missing ho )
 //joi k liye hum ek alag schema define krenge jo ki database wala nhi hai
@@ -42,9 +44,21 @@ app.use(method("_method"));
 app.use(express.static(path.join(__dirname,"/public")))
 
 app.engine("ejs",ejsMate)
+console.log(MongoStore)
+const store =  MongoStore.create({
+        mongoUrl:dburl,
+        crypto:{
+                secret:process.env.SECRET
+        },
+        touchAfter:24*3600
+}) //creates a new mongo store
+store.on("error",(err)=>{
+        console.log("Error in MONGO SESSION STORE",err)
+})
 
-let sessionOptions = {
-    secret:"mysecretcode",
+let sessionOptions = { 
+    store:store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{//cookie ka expiry set hogy aki abhi se kab expire hoga jo ki yaha par 7 din h
@@ -55,16 +69,17 @@ let sessionOptions = {
 }
 
 
-main().then(()=>{
-    console.log("CONNECTED TO DB")
-}).catch(err=>{
-    console.log(err)
-})
 
-async function main(){
-    await mongoose.connect(MONGO_URL)
+async function main() {
+    try {
+        await mongoose.connect(dburl);
+        console.log("Connected to DB");
+    } catch (err) {
+        console.error("MongoDB Connection Error:");
+        console.error(err);
+    }
 }
-
+main()
 
 
 //sare routes jo /listings se aa rhe pehle ye middleware le lega phir /listings/... k baad jo bhi routehoga wo listingRouter object k pass jayega mlrb router in routes aur wha se saare routes map ho jayenge
