@@ -34,12 +34,26 @@ It will expire in 5 minutes.
 -------------------------
 */
 
-const transporter = nodemailer.createTransport({//Ye email bhejne ka connection/configuration banata hai.  Ye internally Gmail se connect hone ki information store karta hai.
+/*const transporter = nodemailer.createTransport({//Ye email bhejne ka connection/configuration banata hai.  Ye internally Gmail se connect hone ki information store karta hai.
     service:'gmail',
     auth:{
         user:process.env.EMAIL_USER,
         pass:process.env.EMAIL_PASS
     }
+});*/
+
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+        rejectUnauthorized: false,
+    },
 });
 
 const generateAndSendOtp = async (email)=>{
