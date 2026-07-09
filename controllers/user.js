@@ -39,8 +39,9 @@ module.exports.userSignup = async (req,res)=>{
 
     }
     catch(err){
-        req.flash("error","User already exists!")
-        res.redirect("/users/signup")
+        console.error("Signup Error:", err);
+        req.flash("error", err.message);
+        res.redirect("/users/signup");
     }
 }
 //OTP verify wala page dikhane ke liye

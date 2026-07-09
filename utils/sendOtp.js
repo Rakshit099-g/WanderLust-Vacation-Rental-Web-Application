@@ -41,14 +41,24 @@ const transporter = nodemailer.createTransport({//Ye email bhejne ka connection/
         pass:process.env.EMAIL_PASS
     }
 });
+
 const generateAndSendOtp = async (email)=>{
+     console.log("otp function started");
     const otp = otpGenerator.generate(6,{
         upperCaseAlphabets:false,
         specialChars:false,
         lowerCaseAlphabets:false
     })
+    console.log("Otp generated:",otp)
     await Otp.deleteMany({email})
+    console.log("Old OTP Deleted");
     await Otp.create({email,otp})
+    console.log("New OTP Saved");
+
+     console.log("EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("EMAIL_PASS Exists:", !!process.env.EMAIL_PASS);
+
+    console.log("Sending Mail...");
 
     await transporter.sendMail({
         from:process.env.EMAIL_USER,
@@ -57,6 +67,7 @@ const generateAndSendOtp = async (email)=>{
         text: `Your OTP is ${otp}. It will expire in 5 minutes.`
     })
 }
+ console.log("Mail Sent Successfully");
 
 module.exports = generateAndSendOtp
 
