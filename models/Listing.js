@@ -31,8 +31,8 @@ const listingSchema = new mongoose.Schema({
 
     location: String,
     country: String,
-// in mongodb the location coorsinates stores in geojson format
-
+// in mongodb the location coordinates stores in geojson format
+//GeoJSON format
     geometery:{
         type:{
             type:String,
@@ -40,7 +40,7 @@ const listingSchema = new mongoose.Schema({
             required:true
 
         },
-        coordinates:{
+        coordinates:{//[longitude, latitude]
             type:[Number],
             required:true
         }

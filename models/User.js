@@ -22,6 +22,10 @@ let userSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true
+    },
+    isVerified:{//for otp
+        type:Boolean,
+        default:false
     }
 })
 userSchema.plugin(passportLocalMongoose.default)

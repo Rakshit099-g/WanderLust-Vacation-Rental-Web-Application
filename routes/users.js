@@ -83,4 +83,12 @@ router.post("/login",
 //logout
 router.get("/logout",userController.userLogout)
 
+
+//otp
+router.get("/verify-otp",userController.renderVerifyOtp)
+
+router.post("/verify-otp",wrapAsync(userController.VerifyOtp))
+
+router.post("/resend-otp",wrapAsync(userController.ResendOtp))
+
 module.exports = router

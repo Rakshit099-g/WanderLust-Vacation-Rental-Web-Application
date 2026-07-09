@@ -22,6 +22,7 @@ module.exports.createListing = async (req,res,next)=>{
     let url = req.file.path
     let filename = req.file.filename
 
+    //map
     let computedGeometry = {
     type: "Point",
     coordinates: [77.2090, 28.6139] // Default Delhi if not found

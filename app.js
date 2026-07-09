@@ -260,10 +260,10 @@ rakshit
 */
 app.use(passport.initialize())
 app.use(passport.session())
-passport.use(new LocalStrategy(User.authenticate()))
 
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());// mai passport ka user.authenticate wala method janta nhi hu wo default kaise kaam krta hai aur abhi kya changes hai ye done wigra ye maine pehli baar suna hai
 
 
 // app.get("/demoUser",async (req,res)=>{
