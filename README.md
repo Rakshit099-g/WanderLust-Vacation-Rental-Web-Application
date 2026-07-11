@@ -1,15 +1,20 @@
 # 🏡 WanderLust – Vacation Rental Web Application
 
-A full-stack vacation rental web application built using **Node.js, Express.js, MongoDB, Mongoose, Express, and EJS**. The application allows users to browse vacation rentals, create and manage property listings, upload images, securely authenticate, leave reviews, search listings by location, and filter properties by category while following the **MVC Architecture** and **RESTful Routing** principles.
+🔗 **Live Demo:** [https://wanderlust-vacation-rental-web.onrender.com]
+
+A full-stack vacation rental web application built using **Node.js, Express.js, MongoDB, Mongoose, and EJS**. The application allows users to browse vacation rentals, create and manage property listings, upload images, securely authenticate with OTP-based email verification, leave reviews, search listings by location, view listings on interactive maps, and filter properties by category while following the **MVC Architecture** and **RESTful Routing** principles.
 
 ---
 
 ## 🚀 Features
 
 - 🔐 User Authentication & Authorization using Passport.js
+- 📧 OTP-based Email Verification during Signup using SendGrid
 - 👤 Secure session management with Express Session
 - 💬 Flash messages for user feedback
 - 🏠 Create, Read, Update, and Delete (CRUD) operations for property listings
+- 🗺️ Interactive Maps for every listing using MapTiler SDK
+- 📍 Automatic Geocoding of location & country into coordinates using MapTiler Geocoding API
 - ⭐ Add, edit, and delete reviews
 - 🔍 Search listings by location
 - 🏷️ Filter listings by category
@@ -43,11 +48,17 @@ A full-stack vacation rental web application built using **Node.js, Express.js, 
 - CSS
 - JavaScript
 
-### Authentication
+### Authentication & Verification
 - Passport.js
 - passport-local-mongoose
 - Express Session
 - Connect Flash
+- OTP Generation using otp-generator
+- Email Delivery using SendGrid
+
+### Maps & Location
+- MapTiler SDK (frontend map rendering)
+- MapTiler Client (backend geocoding — converts location & country into coordinates)
 
 ### File Upload & Storage
 - Multer
@@ -123,10 +134,13 @@ ATLASDB_URL=
 SECRET=
 
 CLOUD_NAME=
-
 CLOUD_API_KEY=
-
 CLOUD_API_SECRET=
+
+MAPTILER_KEY=
+
+SEND_GRID_API_KEY=
+SEND_GRID_EMAIL=
 ```
 
 ---
@@ -145,16 +159,26 @@ npm start
 
 ---
 
+## 📍 How Maps & Geocoding Work
 
+- When a listing is created or updated, the **location & country** entered by the user are sent to the **MapTiler Geocoding API**, which converts them into `[longitude, latitude]` coordinates.
+- These coordinates are stored in the listing's `geometry` field in MongoDB.
+- On the listing's show page, the **MapTiler SDK** renders an interactive map centered on these coordinates with a marker showing the property's approximate location.
+
+## 📧 How OTP Email Verification Works
+
+- During signup, a 6-digit OTP is generated using **otp-generator** and stored in MongoDB with the user's email.
+- The OTP is emailed to the user via **SendGrid** with both plain text and styled HTML templates.
+- The user must enter the correct OTP to complete registration; OTPs expire after **5 minutes**.
+
+---
 
 ## 🔮 Future Improvements
 
 - Pagination
-- Interactive Maps (Mapbox)
 - Wishlist / Favorites
 - Online Booking System
 - Payment Gateway Integration
-- Email Notifications
 - Admin Dashboard
 - AI-based Property Recommendations
 

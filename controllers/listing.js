@@ -1,5 +1,8 @@
 const Listing = require("../models/Listing")
 
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
+
 const NodeGeocoder = require("node-geocoder") //map k liye taki coordinates ko store kra paye
 const options = {
     provider:'openstreetmap'
@@ -97,16 +100,33 @@ module.exports.renderEditForm = async (req,res)=>{
 
 module.exports.updateListings = async (req,res)=>{
     let {id} = req.params
-    let listing = await Listing.findByIdAndUpdate(id,{...req.body.listing},{runValidators:true})//yaha urlencoded wala data req.body m aa jayega 
-    
+
+     let response = await maptilerClient.geocoding.forward(
+        `${req.body.listing.location}, ${req.body.listing.country}`,
+        { limit: 1 }
+    );
+
+    if (!response.features.length) {
+        req.flash("error", "Invalid location, please try again!");
+        return res.redirect(`/listings/${id}/edit`);
+    }
+
+    let listing = await Listing.findByIdAndUpdate(id,{...req.body.listing},{runValidators:true,new:true})//yaha urlencoded wala data req.body m aa jayega 
+    //req.body se geometery nhi mila isiliye extract kra alag se
+    listing.geometery  = {
+        type: "Point",
+        coordinates: response.features[0].geometry .coordinates
+    };
+
     //image edit form se update krne k liye
     
     if(typeof req.file!== "undefined"){ //image edit form m required nhi hai toh ho skta hai ki blank hi reh jaye issiliye aur agar hum phir save kr diye toh existing image update hokar null image rhega issiliye hum tab hi update renge jab file hoga
         let url = req.file.path
         let filename = req.file.filename
         listing.image = {url,filename}
-        await listing.save()
+        
     }
+    await listing.save()
 
     req.flash("success","Updated Successfully!")
     res.redirect(`/listings/${id}`)

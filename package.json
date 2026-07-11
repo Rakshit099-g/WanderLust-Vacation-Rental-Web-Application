@@ -14,6 +14,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@maptiler/client": "^3.0.2",
     "@sendgrid/mail": "^8.1.6",
     "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
